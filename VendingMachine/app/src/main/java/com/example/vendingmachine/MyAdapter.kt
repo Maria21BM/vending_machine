@@ -68,4 +68,10 @@ class MyAdapter( private var activity: Activity, private var items: ArrayList<Be
             this.beverageImg = row?.findViewById(R.id.imageView)
         }
     }
+
+    fun updateBeverages(beverages: ArrayList<BeverageModel>){
+        items.clear()
+        items.addAll(beverages)
+        notifyDataSetChanged()
+    }
 }

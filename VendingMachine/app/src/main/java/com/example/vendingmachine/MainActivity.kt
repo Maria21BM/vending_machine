@@ -7,6 +7,8 @@ import com.example.vendingmachine.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private var binding: ActivityMainBinding ?= null
+    var quantity = 10
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -19,24 +21,28 @@ class MainActivity : AppCompatActivity() {
         var adapter = MyAdapter(this, generateData())
 
         binding?.listView?.adapter = adapter
-        adapter?.notifyDataSetChanged()
+        adapter.notifyDataSetChanged()
+
+        binding?.btnRefill?.setOnClickListener {
+            resetQuantity()
+            adapter.notifyDataSetChanged()
+        }
     }
 
     // 3 - Data Source
     fun generateData(): ArrayList<BeverageModel>{
         var beverageList = ArrayList<BeverageModel>()
 
-        var beverage1: BeverageModel = BeverageModel("Coca Cola", 10, R.drawable.cola)
-        var beverage2: BeverageModel = BeverageModel("Fanta", 10, R.drawable.fanta)
-        var beverage3: BeverageModel = BeverageModel("Schweppes", 10, R.drawable.schweppes)
-        var beverage4: BeverageModel = BeverageModel("Mirinda", 10, R.drawable.mirinda)
-        var beverage5: BeverageModel = BeverageModel("Pepsi", 10, R.drawable.pepsi)
-        var beverage6: BeverageModel = BeverageModel("Sprite", 10, R.drawable.sprite)
-        var beverage7: BeverageModel = BeverageModel("Mountain Dew", 10, R.drawable.mountaindew)
-        var beverage8: BeverageModel = BeverageModel("Dr Pepper", 10, R.drawable.drpepper)
-        var beverage9: BeverageModel = BeverageModel("Dorna Still Water", 10, R.drawable.dornastillwater)
-        var beverage10: BeverageModel = BeverageModel("Dorna Mineral Water", 10, R.drawable.dornamineralwater)
-
+        var beverage1: BeverageModel = BeverageModel("Coca Cola", quantity, R.drawable.cola)
+        var beverage2: BeverageModel = BeverageModel("Fanta", quantity, R.drawable.fanta)
+        var beverage3: BeverageModel = BeverageModel("Schweppes", quantity, R.drawable.schweppes)
+        var beverage4: BeverageModel = BeverageModel("Mirinda", quantity, R.drawable.mirinda)
+        var beverage5: BeverageModel = BeverageModel("Pepsi", quantity, R.drawable.pepsi)
+        var beverage6: BeverageModel = BeverageModel("Sprite", quantity, R.drawable.sprite)
+        var beverage7: BeverageModel = BeverageModel("Mountain Dew", quantity, R.drawable.mountaindew)
+        var beverage8: BeverageModel = BeverageModel("Dr Pepper", quantity, R.drawable.drpepper)
+        var beverage9: BeverageModel = BeverageModel("Dorna Still Water", quantity, R.drawable.dornastillwater)
+        var beverage10: BeverageModel = BeverageModel("Dorna Mineral Water", quantity, R.drawable.dornamineralwater)
 
         beverageList.add(beverage1)
         beverageList.add(beverage2)
@@ -51,4 +57,11 @@ class MainActivity : AppCompatActivity() {
 
         return beverageList
     }
+
+    private fun resetQuantity() {
+        quantity = 10
+        val beverages = generateData()
+        (binding?.listView?.adapter as MyAdapter).updateBeverages(beverages)
+    }
+
 }
